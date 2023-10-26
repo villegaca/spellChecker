@@ -17,11 +17,14 @@ public class Trie {
     Node curr = root;
     char c;
     int index;
+    String newWord;
     String noWordMsg = "not a valid word";
 
-    private String wordDelimitter (String word){
-        return word.replaceAll("\\s", "").toLowerCase(null);
-    }
+    WordModifier wordModifier = new WordModifier();
+
+    // private String wordDelimitter (String word){
+    //     return word.replaceAll("\\s", "").toLowerCase(null);
+    // }
 
 
 
@@ -30,7 +33,7 @@ public class Trie {
         char c;
         int index;
 
-        String newWord = wordDelimitter(word);
+        newWord = wordModifier.wordDelimitter(word);
 
         for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
@@ -44,7 +47,7 @@ public class Trie {
     }
 
     String search (String word){
-        String newWord = wordDelimitter(word);
+        newWord = wordModifier.wordDelimitter(word);
 
         for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
