@@ -1,5 +1,10 @@
 public class Trie {
     private static final int ALPHABET_SIZE = 26;
+    private Node root;
+
+    public Trie(){
+        root = new Node('\0');
+    }
 
     public class Node{
         private Node[] children; 
@@ -13,11 +18,11 @@ public class Trie {
         }
     }
 
-    static Node root;
+    //static Node root;
     Node curr = root;
     char c;
     int index;
-    String newWord;
+    String newWord = "";
     String noWordMsg = "not a valid word";
 
     WordModifier wordModifier = new WordModifier();
@@ -47,6 +52,9 @@ public class Trie {
     }
 
     String search (String word){
+        Node curr = root;
+        char c;
+        int index;
         newWord = wordModifier.wordDelimitter(word);
 
         for (int i = 0; i < newWord.length(); i++){
@@ -55,12 +63,13 @@ public class Trie {
             if(curr.children[index] == null){
                 return noWordMsg;
             }
+            curr = curr.children[index];
         }
         //might need to work on this
-        if(!curr.lastCharacter){
+        if(curr.lastCharacter == false){
             return noWordMsg;
         }
-        return word;
+        return "worked!";
     }
     
 }

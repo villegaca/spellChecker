@@ -4,11 +4,14 @@ public class Main {
 
         Trie trie = new Trie();
 
-        for (int i = 0; i < wordList.length; i++){
-            trie.insert(wordList[i]);
-        }
+        trie.insert("car");
 
-        trie.search("car");
+        // for (int i = 0; i < wordList.length; i++){
+        //     trie.insert(wordList[i]);
+        // }
+        
+        System.out.print(trie.search("car"));
+        //trie.search("car");
 
     }
     

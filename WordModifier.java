@@ -5,7 +5,8 @@ public class WordModifier {
     };
 
     public String wordDelimitter (String word){
-        return word.replaceAll("\\s", "").toLowerCase(null);
+        //String nWord = word.toLowerCase();
+        return word.replaceAll("\\s", "").toLowerCase();
     }
     
 }
