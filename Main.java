@@ -10,7 +10,7 @@ public class Main {
         //     trie.insert(wordList[i]);
         // }
         
-        System.out.print(trie.search("car"));
+        //System.out.print(trie.search("car"));
         //trie.search("car");
 
     }
