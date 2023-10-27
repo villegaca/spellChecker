@@ -19,11 +19,12 @@ public class Trie {
     }
 
     //static Node root;
-    Node curr = root;
-    char c;
-    int index;
+    // Node curr = root;
+    // char c = ' ';
+    // int index = 0;
     String newWord = "";
-    String noWordMsg = "not a valid word";
+    String notAWordMsg = "not a word";
+    String isWordMsg = "correct word";
 
     WordModifier wordModifier = new WordModifier();
 
@@ -47,8 +48,8 @@ public class Trie {
                 curr.children[index] = new Node(c);
                 curr = curr.children[index];
             }
-            curr.lastCharacter = true;
         }
+        curr.lastCharacter = true;
     }
 
     String search (String word){
@@ -61,15 +62,15 @@ public class Trie {
             c = newWord.charAt(i);
             index = c - 'a';
             if(curr.children[index] == null){
-                return noWordMsg;
+                return notAWordMsg;
             }
             curr = curr.children[index];
         }
         //might need to work on this
         if(curr.lastCharacter == false){
-            return noWordMsg;
+            return notAWordMsg;
         }
-        return "worked!";
+        return isWordMsg;
     }
-    
 }
+    
