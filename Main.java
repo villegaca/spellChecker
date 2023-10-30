@@ -6,10 +6,11 @@ public class Main {
     public static void main(String[] args) {
         Trie trie = new Trie();
 
+        /*
         if (args.length == 0){
             System.out.println("you forgot to pass a file name");
         }
-
+        */
         //String fileName = args[0];
         File infile = new File("wordsForSpellChecker.txt");
 
