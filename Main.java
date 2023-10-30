@@ -10,25 +10,29 @@ public class Main {
             System.out.println("you forgot to pass a file name");
         }
 
-        String fileName = args[0];
+        //String fileName = args[0];
+        File infile = new File("wordsForSpellChecker.txt");
 
         try{
-            File infile = new File(fileName);
+            //File infile = new File(fileName);
             Scanner input = new Scanner(infile);
 
             while(input.hasNextLine()){
                 String word = input.nextLine();
                 trie.insert(word);
             }
+             input.close()
         } catch (FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+        
+       
+            
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.println("enter a word");
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("enter a word");
-
-        String userInput = scanner.nextLine();
-        trie.search(userInput);
+        //String userInput = scanner.nextLine();
+        //trie.search(userInput);
 
 
         // String wordList[] = new String[]{"car", "Cat", "True", "trie"};
