@@ -56,21 +56,24 @@ public class Trie {
         Node curr = root;
         char c;
         int index;
+        String searchFailed = String.format("%s = %s%n", word, notAWordMsg);
+        String searchWorked = String.format("%s = %s%n", word, isWordMsg);
+        
         newWord = wordModifier.wordDelimitter(word);
 
         for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
             index = c - 'a';
             if(curr.children[index] == null){
-                return notAWordMsg;
+                return searchFailed;
             }
             curr = curr.children[index];
         }
         //might need to work on this
-        if(curr.lastCharacter == false){
-            return notAWordMsg;
+        if(!curr.lastCharacter){
+            return searchFailed;
         }
-        return isWordMsg;
+        return searchWorked;
     }
 }
     
