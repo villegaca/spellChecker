@@ -1,4 +1,6 @@
-public class Trie {
+import java.io.Serializable;
+
+public class Trie implements Serializable {
     private static final int ALPHABET_SIZE = 26;
     private Node root;
 
@@ -76,4 +78,3 @@ public class Trie {
         return searchWorked;
     }
 }
-    
