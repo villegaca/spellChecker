@@ -8,7 +8,7 @@ public class Trie implements Serializable {
         root = new Node('\0');
     }
 
-    public class Node{
+    public class Node implements Serializable{
         private Node[] children; 
         char c = ' ';
         private boolean lastCharacter;

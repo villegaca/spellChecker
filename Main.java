@@ -17,7 +17,7 @@ public class Main {
         }
         */
         //String fileName = args[0];
-        File infile = new File("C:\\Users\\gguil\\OneDrive\\Desktop\\spellChecker-main\\wordsForSpellChecker.txt");
+        File infile = new File("wordsForSpellChecker.txt");
 
         try{
             //File infile = new File(fileName);

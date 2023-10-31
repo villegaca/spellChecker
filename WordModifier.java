@@ -1,4 +1,6 @@
-public class WordModifier {
+import java.io.Serializable;
+
+public class WordModifier implements Serializable {
 
     public WordModifier(){
 
