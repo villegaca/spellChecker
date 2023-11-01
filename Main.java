@@ -9,66 +9,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Trie trie = new Trie();
-
-        /*
-        if (args.length == 0){
-            System.out.println("you forgot to pass a file name");
-        }
-        */
-        //String fileName = args[0];
-        File infile = new File("wordsForSpellChecker.txt");
-
-        try{
-            //File infile = new File(fileName);
-            Scanner input = new Scanner(infile);
-
-            while(input.hasNextLine()){
-                String word = input.nextLine();
-                String noPuncWord = word.replaceAll("[^\\sa-zA-Z0-9]", "");
-                //System.out.println(noPuncWord);
-                trie.insert(noPuncWord);
-            }
-             input.close();
-        } catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
-        }
-
-        try {
-			ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(new File("trieTree.ser")));
-
-			o.writeObject(trie);
-
-			o.close();
-
-            /*
-			FileInputStream fi = new FileInputStream(new File("myObjects.txt"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
-
-			// Read objects
-			Person pr1 = (Person) oi.readObject();
-			Person pr2 = (Person) oi.readObject();
-
-			System.out.println(pr1.toString());
-			System.out.println(pr2.toString());
-
-			oi.close();
-			fi.close();
-            */
-
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-		}
         
-        
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("enter a word");
+        //insertIntoTrie();
 
-        //String userInput = scanner.nextLine();
-        //trie.search(userInput);
-
+        searchTrie();
 
         // String wordList[] = new String[]{"car", "Cat", "True", "trie"};
 
@@ -84,6 +28,82 @@ public class Main {
         // System.out.print(trie.search("car"));
         // //trie.search("car");
 
+    }
+
+    static void insertIntoTrie(){
+        Trie trie = new Trie();
+        //Trie trie = null;
+    
+        /*
+        if (args.length == 0){
+            System.out.println("you forgot to pass a file name");
+        }
+        */
+        //String fileName = args[0];
+    
+            
+        File infile = new File("C:\\Users\\gguil\\OneDrive\\Desktop\\spellChecker-main\\wordsForSpellChecker.txt");
+        //File infile = new File("C:\\Users\\gguil\\OneDrive\\Desktop\\spellChecker-main\\test.txt");
+    
+        try{
+            //File infile = new File(fileName);
+            Scanner input = new Scanner(infile);
+    
+            while(input.hasNextLine()){
+                String word = input.nextLine();
+                String noPuncWord = word.replaceAll("[^\\sa-zA-Z0-9]", "");
+                trie.insert(noPuncWord);
+            }
+                input.close();
+        } catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+
+        try {
+            
+			ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(new File("trieTree.ser")));
+
+			o.writeObject(trie);
+
+			o.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream");
+		}
+    }
+
+    static void searchTrie(){
+        Trie trie = null;
+
+        try {
+			FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			trie = (Trie) oi.readObject();
+
+			System.out.println(trie.toString());
+
+			oi.close();
+			fi.close();
+            
+
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch (IOException e) {
+			System.out.println("Error initializing stream");
+		} catch (ClassNotFoundException exception) {
+            System.out.println("Class was not found");
+        } 
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("enter a word");
+
+        String userInput = scanner.nextLine();
+        System.out.print(trie.search(userInput));
+        
     }
     
 }
