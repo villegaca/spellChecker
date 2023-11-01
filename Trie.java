@@ -43,12 +43,14 @@ public class Trie implements Serializable {
 
         newWord = wordModifier.wordDelimitter(word);
 
-        for (int i = 0; i < newWord.length(); i++){
+        for (int i = 0; i < newWord.length()-1; i++){
             c = newWord.charAt(i);
             index = c - 'a';
+            //System.out.println(index);
             if(curr.children[index] == null){
                 curr.children[index] = new Node(c);
                 curr = curr.children[index];
+                //System.out.println(curr.c);
             }
         }
         curr.lastCharacter = true;
@@ -62,11 +64,15 @@ public class Trie implements Serializable {
         String searchWorked = String.format("%s = %s%n", word, isWordMsg);
         
         newWord = wordModifier.wordDelimitter(word);
+        System.out.println(newWord);
+        System.out.println(newWord.length());
 
-        for (int i = 0; i < newWord.length(); i++){
+        for (int i = 0; i < newWord.length()-1; i++){
             c = newWord.charAt(i);
+            //System.out.println(c);
             index = c - 'a';
             if(curr.children[index] == null){
+                System.out.println(c);
                 return searchFailed;
             }
             curr = curr.children[index];
