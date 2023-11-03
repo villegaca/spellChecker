@@ -42,8 +42,7 @@ public class Main {
         //String fileName = args[0];
     
             
-        File infile = new File("C:\\Users\\gguil\\OneDrive\\Desktop\\spellChecker-main\\wordsForSpellChecker.txt");
-        //File infile = new File("C:\\Users\\gguil\\OneDrive\\Desktop\\spellChecker-main\\test.txt");
+        File infile = new File("goodList.txt");
     
         try{
             //File infile = new File(fileName);
@@ -51,7 +50,7 @@ public class Main {
     
             while(input.hasNextLine()){
                 String word = input.nextLine();
-                String noPuncWord = word.replaceAll("[^\\sa-zA-Z0-9]", "");
+                String noPuncWord = word.replaceAll("[^\\sa-zA]", "");
                 trie.insert(noPuncWord);
             }
                 input.close();
@@ -84,8 +83,6 @@ public class Main {
 			// Read objects
 			trie = (Trie) oi.readObject();
 
-			System.out.println(trie.toString());
-
 			oi.close();
 			fi.close();
             
@@ -99,11 +96,20 @@ public class Main {
         } 
         
         Scanner scanner = new Scanner(System.in);
-        System.out.println("enter a word");
+        System.out.println("enter a word/sentence:");
 
-        String userInput = scanner.nextLine();
-        System.out.print(trie.search(userInput));
-        
+        boolean continueLoop = true;
+
+        while(continueLoop){
+            String userInput = scanner.nextLine();
+            if(userInput.equals("exit")){
+                break;
+            }
+            String[] splitString = userInput.split("\\s+");
+            for(String word : splitString){
+                //System.out.println(word);
+                trie.search(word);
+            }
+        }
     }
-    
 }
