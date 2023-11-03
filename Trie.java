@@ -78,8 +78,14 @@ public class Trie implements Serializable {
             //System.out.println(c);
             index = c - 'a';
             if(curr.children[index] == null){
-                System.out.println("\n" + newWord + " is spelled incorrectly, here are some suggestions:\n");
-                ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 2);
+                System.out.println("\n" + newWord + " is spelled incorrectly, looking for suggestions:\n");
+                ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
+                ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
+                for (int j = 0; j < suggestionList.size(); j++) {
+                    String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+                    System.out.println(suggestion);
+                }
+                System.out.println("");
                 return searchFailed;
             }
             incorrectWord += c;
@@ -88,7 +94,7 @@ public class Trie implements Serializable {
 
         //might need to work on this
         if(!curr.lastCharacter){
-            System.out.println("\nIncorrect word, here are some suggestions:\n");
+            System.out.println("\nIncorrect word, looking for suggestions:\n");
             ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 2);
             return searchFailed;
         }
@@ -100,19 +106,18 @@ public class Trie implements Serializable {
         Node root = lastNodeForWord;
         Node curr = lastNodeForWord;
         Node previousNode = null;
-        ArrayList<String> suggestionList = new ArrayList<String>();
+        ArrayList<String> listOfWords = new ArrayList<String>();
 
         while(!(root.isExplored)){
             String temp = "" + word;
             int pathLength = 0;
             for (int i = 0; i < distance; i++){
-                //String temp = "" + word;
                 //System.out.println("We are back at the root node");
                 if (curr != previousNode) {
                     previousNode = curr;
                     for(int j = 0; j < 26; j++){
                     //check levenstein length
-                        if(curr.children[j] != null && !(curr.children[j].isExplored) /*&& levent stein length <= 3*/){
+                        if(curr.children[j] != null && !(curr.children[j].isExplored)){
                             curr = curr.children[j];
                             temp += curr.c;
                             //System.out.println("We have gone down a level");
@@ -126,18 +131,33 @@ public class Trie implements Serializable {
                 root.isExplored = true;
             }
             if(curr.lastCharacter){
-                suggestionList.add(temp);
+                listOfWords.add(temp);
             }
             curr.isExplored = true;
             curr = root;
         }
         System.out.println("");
-        for (int i = 0; i < suggestionList.size(); i++) {
-            String suggestion = String.format("" + (i + 1) + ") %s", suggestionList.get(i));
+        /*
+        for (int i = 0; i < listOfWords.size(); i++) {
+            String suggestion = String.format("" + (i + 1) + ") %s", listOfWords.get(i));
             System.out.println(suggestion);
         }
+        */
         System.out.println("");
-        return suggestionList;
+        return listOfWords;
     }
 
+    ArrayList<String> getSuggestionList(String userInput, ArrayList<String> firstListOfWords){
+        ArrayList<String> suggestionList = new ArrayList<String>();
+        for (String word : firstListOfWords){
+            int Llength = DistanceEquation.levenshteinRecursive(word, userInput, word.length(), userInput.length());
+            if (Llength < 3) {
+                suggestionList.add(word);
+            }
+        }
+        if (suggestionList.size() == 0){
+            System.out.println("No suggestion were found\n");
+        }
+        return suggestionList;
+    }
 }
