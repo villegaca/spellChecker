@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Trie implements Serializable {
     private static final int ALPHABET_SIZE = 26;
@@ -47,7 +48,7 @@ public class Trie implements Serializable {
 
         newWord = wordModifier.wordDelimitter(word);
 
-        for (int i = 0; i < newWord.length()-1; i++){
+        for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
             index = c - 'a';
             //System.out.println(index);
@@ -68,46 +69,75 @@ public class Trie implements Serializable {
         int index;
         String searchFailed = String.format("%s = %s%n", word, notAWordMsg);
         String searchWorked = String.format("%s = %s%n", word, isWordMsg);
+        String incorrectWord = "";
         
         newWord = wordModifier.wordDelimitter(word);
 
-        for (int i = 0; i < newWord.length()-1; i++){
+        for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
             //System.out.println(c);
             index = c - 'a';
             if(curr.children[index] == null){
+                System.out.println("\n" + newWord + " is spelled incorrectly, here are some suggestions:\n");
+                ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 2);
                 return searchFailed;
             }
+            incorrectWord += c;
             curr = curr.children[index];
         }
 
-        ArrayList<String> firstListOfWords = getAllWordsByDistance(newWord, curr, 3);
-
         //might need to work on this
         if(!curr.lastCharacter){
+            System.out.println("\nIncorrect word, here are some suggestions:\n");
+            ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 2);
             return searchFailed;
         }
-        System.out.println(curr.level);
         return searchWorked;
     }
+
     
-    static ArrayList<String>[] getAllWordsByDistance(String word, Node lastNodeForWord, int distance){
+    ArrayList<String> getAllWordsByDistance(String word, Node lastNodeForWord, int distance){
         Node root = lastNodeForWord;
         Node curr = lastNodeForWord;
+        Node previousNode = null;
         ArrayList<String> suggestionList = new ArrayList<String>();
 
-        for (int i = 0; i == 3; i++){
+        while(!(root.isExplored)){
             String temp = "" + word;
-            for(int j = 0; j == 26; j++){
-                //check levenstein length
-                if(curr.children[j] != null && !(curr.children[j].isExplored) /*&& levent stein length <= 3*/){
-                    curr = curr.children[j];
-                    if(curr.lastCharacter){
-                        //add to arraylist
+            int pathLength = 0;
+            for (int i = 0; i < distance; i++){
+                //String temp = "" + word;
+                //System.out.println("We are back at the root node");
+                if (curr != previousNode) {
+                    previousNode = curr;
+                    for(int j = 0; j < 26; j++){
+                    //check levenstein length
+                        if(curr.children[j] != null && !(curr.children[j].isExplored) /*&& levent stein length <= 3*/){
+                            curr = curr.children[j];
+                            temp += curr.c;
+                            //System.out.println("We have gone down a level");
+                            pathLength += 1;
+                            break;
+                        }
                     }
-                }
+                } 
             }
+            if(pathLength == 0) {
+                root.isExplored = true;
+            }
+            if(curr.lastCharacter){
+                suggestionList.add(temp);
+            }
+            curr.isExplored = true;
+            curr = root;
         }
+        System.out.println("");
+        for (int i = 0; i < suggestionList.size(); i++) {
+            String suggestion = String.format("" + (i + 1) + ") %s", suggestionList.get(i));
+            System.out.println(suggestion);
+        }
+        System.out.println("");
+        return suggestionList;
     }
-    
+
 }
