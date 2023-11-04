@@ -80,7 +80,15 @@ public class Trie implements Serializable {
             if(curr.children[index] == null){
                 System.out.println("\n" + newWord + " is spelled incorrectly, looking for suggestions:\n");
                 ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
+                double startTime = System.currentTimeMillis();
+                double startTimeNano = System.nanoTime();
                 ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
+                double endTime = System.currentTimeMillis();
+                double endTimeNano = System.nanoTime();
+                double runTime = endTime - startTime;
+                double runTimeNano = endTimeNano - startTimeNano;
+                System.out.println("The running time in milliseconds: " + runTime);
+                System.out.println("The running time in nanoseconds: " + runTimeNano);
                 for (int j = 0; j < suggestionList.size(); j++) {
                     String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
                     System.out.println(suggestion);
@@ -95,7 +103,20 @@ public class Trie implements Serializable {
         //might need to work on this
         if(!curr.lastCharacter){
             System.out.println("\nIncorrect word, looking for suggestions:\n");
-            ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 2);
+            ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
+            double startTime = System.currentTimeMillis();
+            double startTimeNano = System.nanoTime();
+            ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
+            double endTime = System.currentTimeMillis();
+            double endTimeNano = System.nanoTime();
+            double runTime = endTime - startTime;
+            double runTimeNano = endTimeNano - startTimeNano;
+            System.out.println("The running time in milliseconds: " + runTime);
+            System.out.println("The running time in nanoseconds: " + runTimeNano);
+            for (int j = 0; j < suggestionList.size(); j++) {
+                String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+                System.out.println(suggestion);
+            }
             return searchFailed;
         }
         return searchWorked;
@@ -150,6 +171,7 @@ public class Trie implements Serializable {
     ArrayList<String> getSuggestionList(String userInput, ArrayList<String> firstListOfWords){
         ArrayList<String> suggestionList = new ArrayList<String>();
         for (String word : firstListOfWords){
+            // System.out.println(word);
             int Llength = DistanceEquation.levenshteinRecursive(word, userInput, word.length(), userInput.length());
             if (Llength < 3) {
                 suggestionList.add(word);

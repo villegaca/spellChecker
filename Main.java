@@ -76,7 +76,32 @@ public class Main {
     static void searchTrie(){
         Trie trie = null;
 
-        try {
+        // try {
+		// 	FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
+		// 	ObjectInputStream oi = new ObjectInputStream(fi);
+
+		// 	// Read objects
+		// 	trie = (Trie) oi.readObject();
+
+		// 	oi.close();
+		// 	fi.close();
+            
+
+		// } catch (FileNotFoundException e) {
+		// 	System.out.println("File not found");
+		// } catch (IOException e) {
+		// 	System.out.println("Error initializing stream");
+		// } catch (ClassNotFoundException exception) {
+        //     System.out.println("Class was not found");
+        // } 
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("enter a word/sentence:");
+
+        boolean continueLoop = true;
+
+        while(continueLoop){
+            try {
 			FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
 			ObjectInputStream oi = new ObjectInputStream(fi);
 
@@ -87,27 +112,19 @@ public class Main {
 			fi.close();
             
 
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-		} catch (ClassNotFoundException exception) {
-            System.out.println("Class was not found");
-        } 
-        
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("enter a word/sentence:");
-
-        boolean continueLoop = true;
-
-        while(continueLoop){
+            } catch (FileNotFoundException e) {
+                System.out.println("File not found");
+            } catch (IOException e) {
+                System.out.println("Error initializing stream");
+            } catch (ClassNotFoundException exception) {
+                System.out.println("Class was not found");
+            } 
             String userInput = scanner.nextLine();
             if(userInput.equals("exit")){
                 break;
             }
             String[] splitString = userInput.split("\\s+");
             for(String word : splitString){
-                //System.out.println(word);
                 trie.search(word);
             }
         }
