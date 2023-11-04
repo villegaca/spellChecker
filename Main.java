@@ -98,35 +98,28 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("enter a word/sentence:");
 
-        boolean continueLoop = true;
+        try {
+        FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
+        ObjectInputStream oi = new ObjectInputStream(fi);
 
-        while(continueLoop){
-            try {
-			FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
+        // Read objects
+        trie = (Trie) oi.readObject();
 
-			// Read objects
-			trie = (Trie) oi.readObject();
+        oi.close();
+        fi.close();
+        
 
-			oi.close();
-			fi.close();
-            
-
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found");
-            } catch (IOException e) {
-                System.out.println("Error initializing stream");
-            } catch (ClassNotFoundException exception) {
-                System.out.println("Class was not found");
-            } 
-            String userInput = scanner.nextLine();
-            if(userInput.equals("exit")){
-                break;
-            }
-            String[] splitString = userInput.split("\\s+");
-            for(String word : splitString){
-                trie.search(word);
-            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException exception) {
+            System.out.println("Class was not found");
+        } 
+        String userInput = scanner.nextLine();
+        String[] splitString = userInput.split("\\s+");
+        for(String word : splitString){
+            trie.search(word);
         }
     }
 }
