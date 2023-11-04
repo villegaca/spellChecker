@@ -73,6 +73,8 @@ public class Trie implements Serializable {
         
         newWord = wordModifier.wordDelimitter(word);
 
+        // double startTime = System.currentTimeMillis();
+        // double startTimeNano = System.nanoTime();
         for (int i = 0; i < newWord.length(); i++){
             c = newWord.charAt(i);
             //System.out.println(c);
@@ -82,6 +84,11 @@ public class Trie implements Serializable {
                 ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
                 double startTime = System.currentTimeMillis();
                 double startTimeNano = System.nanoTime();
+                // double endTime = System.currentTimeMillis();
+                // double endTimeNano = System.nanoTime();
+                // double runTime = endTime - startTime;
+                // double runTimeNano = endTimeNano - startTimeNano;
+                System.out.println(firstListOfWords.size());
                 ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
                 double endTime = System.currentTimeMillis();
                 double endTimeNano = System.nanoTime();
@@ -106,6 +113,11 @@ public class Trie implements Serializable {
             ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
             double startTime = System.currentTimeMillis();
             double startTimeNano = System.nanoTime();
+            // double endTime = System.currentTimeMillis();
+            // double endTimeNano = System.nanoTime();
+            // double runTime = endTime - startTime;
+            // double runTimeNano = endTimeNano - startTimeNano;
+            System.out.println(firstListOfWords.size());
             ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
             double endTime = System.currentTimeMillis();
             double endTimeNano = System.nanoTime();
@@ -169,10 +181,14 @@ public class Trie implements Serializable {
     }
 
     ArrayList<String> getSuggestionList(String userInput, ArrayList<String> firstListOfWords){
+        int totalLength = 0;
+        int number = 0;
         ArrayList<String> suggestionList = new ArrayList<String>();
         for (String word : firstListOfWords){
-            // System.out.println(word);
+            //System.out.println(word);
             int Llength = DistanceEquation.levenshteinRecursive(word, userInput, word.length(), userInput.length());
+            totalLength += word.length();
+            number += 1;
             if (Llength < 3) {
                 suggestionList.add(word);
             }
@@ -180,6 +196,7 @@ public class Trie implements Serializable {
         if (suggestionList.size() == 0){
             System.out.println("No suggestion were found\n");
         }
+        System.out.println(totalLength/number);
         return suggestionList;
     }
 }
