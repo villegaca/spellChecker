@@ -99,14 +99,14 @@ public class Main {
         System.out.println("enter a word/sentence:");
 
         try {
-        FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
-        ObjectInputStream oi = new ObjectInputStream(fi);
+            FileInputStream fi = new FileInputStream(new File("trieTree.ser"));
+            ObjectInputStream oi = new ObjectInputStream(fi);
 
-        // Read objects
-        trie = (Trie) oi.readObject();
+            // Read objects
+            trie = (Trie) oi.readObject();
 
-        oi.close();
-        fi.close();
+            oi.close();
+            fi.close();
         
 
         } catch (FileNotFoundException e) {
