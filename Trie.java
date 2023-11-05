@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Trie implements Serializable {
     private static final int ALPHABET_SIZE = 26;
@@ -80,27 +81,27 @@ public class Trie implements Serializable {
             //System.out.println(c);
             index = c - 'a';
             if(curr.children[index] == null){
-                System.out.println("\n" + newWord + " is spelled incorrectly, looking for suggestions:\n");
+                //System.out.println("\n" + newWord + " is spelled incorrectly, looking for suggestions:\n");
                 ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
-                double startTime = System.currentTimeMillis();
+                //double startTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
                 double startTimeNano = System.nanoTime();
                 // double endTime = System.currentTimeMillis();
                 // double endTimeNano = System.nanoTime();
                 // double runTime = endTime - startTime;
                 // double runTimeNano = endTimeNano - startTimeNano;
-                System.out.println(firstListOfWords.size());
+                //System.out.println(firstListOfWords.size());
                 ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
-                double endTime = System.currentTimeMillis();
+                //double endTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
                 double endTimeNano = System.nanoTime();
-                double runTime = endTime - startTime;
+                //double runTime = endTime - startTime;
                 double runTimeNano = endTimeNano - startTimeNano;
-                System.out.println("The running time in milliseconds: " + runTime);
-                System.out.println("The running time in nanoseconds: " + runTimeNano);
-                for (int j = 0; j < suggestionList.size(); j++) {
-                    String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
-                    System.out.println(suggestion);
-                }
-                System.out.println("");
+                //System.out.println(newWord + " - " + runTime);
+                System.out.println(newWord + " - " + runTimeNano);
+                // for (int j = 0; j < suggestionList.size(); j++) {
+                //     String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+                //     System.out.println(suggestion);
+                // }
+                //System.out.println("");
                 return searchFailed;
             }
             incorrectWord += c;
@@ -109,26 +110,26 @@ public class Trie implements Serializable {
 
         //might need to work on this
         if(!curr.lastCharacter){
-            System.out.println("\nIncorrect word, looking for suggestions:\n");
+            //System.out.println("\nIncorrect word, looking for suggestions:\n");
             ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
-            double startTime = System.currentTimeMillis();
+            //double startTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
             double startTimeNano = System.nanoTime();
             // double endTime = System.currentTimeMillis();
             // double endTimeNano = System.nanoTime();
             // double runTime = endTime - startTime;
             // double runTimeNano = endTimeNano - startTimeNano;
-            System.out.println(firstListOfWords.size());
+            //System.out.println(firstListOfWords.size());
             ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
-            double endTime = System.currentTimeMillis();
+            //double endTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
             double endTimeNano = System.nanoTime();
-            double runTime = endTime - startTime;
+            //double runTime = endTime - startTime;
             double runTimeNano = endTimeNano - startTimeNano;
-            System.out.println("The running time in milliseconds: " + runTime);
-            System.out.println("The running time in nanoseconds: " + runTimeNano);
-            for (int j = 0; j < suggestionList.size(); j++) {
-                String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
-                System.out.println(suggestion);
-            }
+            //System.out.println(newWord + " - " + runTime);
+            System.out.println(newWord + " - " + runTimeNano);
+            // for (int j = 0; j < suggestionList.size(); j++) {
+            //     String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+            //     System.out.println(suggestion);
+            // }
             return searchFailed;
         }
         return searchWorked;
@@ -185,18 +186,21 @@ public class Trie implements Serializable {
         int number = 0;
         ArrayList<String> suggestionList = new ArrayList<String>();
         for (String word : firstListOfWords){
-            //System.out.println(word);
-            int Llength = DistanceEquation.levenshteinRecursive(word, userInput, word.length(), userInput.length());
+            System.out.println(word);
+            int Llength = DistanceEquation.editDistance(word, userInput);
             totalLength += word.length();
             number += 1;
             if (Llength < 3) {
                 suggestionList.add(word);
             }
+            // if(number > 10){
+            //      break;
+            // }
         }
         if (suggestionList.size() == 0){
-            System.out.println("No suggestion were found\n");
+            //System.out.println("No suggestion were found\n");
         }
-        System.out.println(totalLength/number);
+        //System.out.println(totalLength/number);
         return suggestionList;
     }
 }
