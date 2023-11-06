@@ -84,7 +84,7 @@ public class Trie implements Serializable {
                 //System.out.println("\n" + newWord + " is spelled incorrectly, looking for suggestions:\n");
                 ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
                 //double startTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-                double startTimeNano = System.nanoTime();
+                //double startTimeNano = System.nanoTime();
                 // double endTime = System.currentTimeMillis();
                 // double endTimeNano = System.nanoTime();
                 // double runTime = endTime - startTime;
@@ -92,15 +92,15 @@ public class Trie implements Serializable {
                 //System.out.println(firstListOfWords.size());
                 ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
                 //double endTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-                double endTimeNano = System.nanoTime();
+                //double endTimeNano = System.nanoTime();
                 //double runTime = endTime - startTime;
-                double runTimeNano = endTimeNano - startTimeNano;
+                //double runTimeNano = endTimeNano - startTimeNano;
                 //System.out.println(newWord + " - " + runTime);
-                System.out.println(newWord + " - " + runTimeNano);
-                // for (int j = 0; j < suggestionList.size(); j++) {
-                //     String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
-                //     System.out.println(suggestion);
-                // }
+                //System.out.println(newWord + " - " + runTimeNano);
+                for (int j = 0; j < suggestionList.size(); j++) {
+                    String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+                    System.out.println(suggestion);
+                }
                 //System.out.println("");
                 return searchFailed;
             }
@@ -113,7 +113,7 @@ public class Trie implements Serializable {
             //System.out.println("\nIncorrect word, looking for suggestions:\n");
             ArrayList<String> firstListOfWords = getAllWordsByDistance(incorrectWord, curr, 10);
             //double startTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-            double startTimeNano = System.nanoTime();
+            //double startTimeNano = System.nanoTime();
             // double endTime = System.currentTimeMillis();
             // double endTimeNano = System.nanoTime();
             // double runTime = endTime - startTime;
@@ -121,15 +121,15 @@ public class Trie implements Serializable {
             //System.out.println(firstListOfWords.size());
             ArrayList<String> suggestionList = getSuggestionList(newWord, firstListOfWords);
             //double endTime = TimeUnit.MICROSECONDS.convert(System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-            double endTimeNano = System.nanoTime();
+            //double endTimeNano = System.nanoTime();
             //double runTime = endTime - startTime;
-            double runTimeNano = endTimeNano - startTimeNano;
+            //double runTimeNano = endTimeNano - startTimeNano;
             //System.out.println(newWord + " - " + runTime);
-            System.out.println(newWord + " - " + runTimeNano);
-            // for (int j = 0; j < suggestionList.size(); j++) {
-            //     String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
-            //     System.out.println(suggestion);
-            // }
+            //System.out.println(newWord + " - " + runTimeNano);
+            for (int j = 0; j < suggestionList.size(); j++) {
+                String suggestion = String.format("" + (j + 1) + ") %s", suggestionList.get(j));
+                System.out.println(suggestion);
+            }
             return searchFailed;
         }
         return searchWorked;
@@ -146,15 +146,18 @@ public class Trie implements Serializable {
             String temp = "" + word;
             int pathLength = 0;
             for (int i = 0; i < distance; i++){
+
                 //System.out.println("We are back at the root node");
+
                 if (curr != previousNode) {
                     previousNode = curr;
                     for(int j = 0; j < 26; j++){
-                    //check levenstein length
                         if(curr.children[j] != null && !(curr.children[j].isExplored)){
                             curr = curr.children[j];
                             temp += curr.c;
+
                             //System.out.println("We have gone down a level");
+
                             pathLength += 1;
                             break;
                         }
@@ -171,36 +174,22 @@ public class Trie implements Serializable {
             curr = root;
         }
         System.out.println("");
-        /*
-        for (int i = 0; i < listOfWords.size(); i++) {
-            String suggestion = String.format("" + (i + 1) + ") %s", listOfWords.get(i));
-            System.out.println(suggestion);
-        }
-        */
         System.out.println("");
         return listOfWords;
     }
 
     ArrayList<String> getSuggestionList(String userInput, ArrayList<String> firstListOfWords){
-        int totalLength = 0;
-        int number = 0;
         ArrayList<String> suggestionList = new ArrayList<String>();
         for (String word : firstListOfWords){
-            System.out.println(word);
+            //System.out.println(word);
             int Llength = DistanceEquation.editDistance(word, userInput);
-            totalLength += word.length();
-            number += 1;
             if (Llength < 3) {
                 suggestionList.add(word);
             }
-            // if(number > 10){
-            //      break;
-            // }
         }
         if (suggestionList.size() == 0){
-            //System.out.println("No suggestion were found\n");
+            System.out.println("No suggestion were found\n");
         }
-        //System.out.println(totalLength/number);
         return suggestionList;
     }
 }
